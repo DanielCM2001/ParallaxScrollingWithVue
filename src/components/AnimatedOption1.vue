@@ -6,7 +6,6 @@
         <img src="../assets/images/Rocket2.png" class="rocket-man" alt="" />
       </div>
       <img src="../assets/images/WorldX4.png" class="world" alt="" />
-      <!--  <img src="../assets/images/Ovni.gif" class="ovni" alt="" /> -->
     </section>
     <section class="animation bg-section">
       <img src="../assets/images/Sky.png" class="Sky" alt="" />
