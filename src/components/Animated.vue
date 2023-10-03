@@ -2,8 +2,11 @@
   <div>
     <header><h1 class="hidden">Scroll</h1></header>
     <section class="animation space">
-      <img src="../assets/images/RocketMan.png" class="paper-plane" alt="" />
-      <img src="../assets/images/World.png" class="world" alt="" />
+      <div class="rocket-man-wrapper">
+        <img src="../assets/images/Rocket2.png" class="rocket-man" alt="" />
+      </div>
+      <img src="../assets/images/WorldX4.png" class="world" alt="" />
+      <!--  <img src="../assets/images/Ovni.gif" class="ovni" alt="" /> -->
     </section>
     <section class="animation bg-section">
       <img src="../assets/images/Sky.png" class="Sky" alt="" />
@@ -17,27 +20,31 @@ export default {
   mounted() {
     const flightPath = {
       curviness: 1.25,
-      autoRotate: true,
+      autoRotate: false,
       values: [
         {
-          x: 100,
-          y: -20,
-        },
-        {
-          x: 300,
-          y: 10,
-        },
-        {
-          x: 350,
+          x: 0,
           y: -50,
         },
         {
-          x: 600,
-          y: 100,
+          x: 0,
+          y: -100,
         },
         {
-          x: 300,
-          y: 10,
+          x: 0,
+          y: -150,
+        },
+        {
+          x: 0,
+          y: -200,
+        },
+        {
+          x: 0,
+          y: -250,
+        },
+        {
+          x: 0,
+          y: -window.innerHeight,
         },
       ],
     };
@@ -46,9 +53,10 @@ export default {
 
     // First, the flight path animation
     tween.add(
-      TweenLite.to(".paper-plane", 1, {
+      TweenLite.to(".rocket-man", 1, {
         bezier: flightPath,
         ease: Power1.easeInOut,
+        onComplete: goToNextSection,
       })
     );
 
@@ -59,7 +67,7 @@ export default {
         1,
         { scale: 1 }, // Start with the current scale
 
-        { scale: 80, onComplete: goToNextSection } // End with a smaller scale and trigger transition
+        { scale: 5, onComplete: goToNextSection } // End with a smaller scale and trigger transition
       )
     );
 
@@ -116,18 +124,52 @@ export default {
   justify-content: center;
 }
 
-.paper-plane {
+.rocket-man-wrapper {
   position: absolute;
-  height: 100px;
   top: 50%;
-  left: 0;
-  z-index: 1;
+  left: 25%; /* Position on the right */
+  animation: pump 1.5s infinite alternate;
 }
+
 .world {
   position: absolute;
   height: 400px;
   bottom: 0%;
   left: 25%;
   z-index: 1;
+}
+
+.ovni {
+  position: absolute;
+  height: 300px;
+  top: 0%;
+  left: 0%;
+  z-index: 1;
+}
+
+@keyframes pump {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .rocket-man-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 0%; /* Position on the right */
+    animation: pump 1.5s infinite alternate;
+  }
+
+  .world {
+    position: absolute;
+    height: 400px;
+    bottom: 0%;
+    left: 0%;
+    z-index: 1;
+  }
 }
 </style>
