@@ -5,17 +5,12 @@
       <div class="rocket-man-wrapper">
         <img src="../assets/images/Rocket2.png" class="rocket-man" alt="" />
       </div>
-      <div class="world">
-        <img src="../assets/images/WorldX4.png" alt="" class="world-world" />
-      </div>
-      <h1 class="GlowLabel">
-        I enjoy creating things that live
-        <br />
-        on the internet...
-      </h1>
+      <img src="../assets/images/WorldX4.png" class="world" alt="" />
+      <!--  <img src="../assets/images/Ovni.gif" class="ovni" alt="" /> -->
     </section>
-    <section class="animation sky-inside-world"></section>
-    <section class="animation bg-section">Content for the next section</section>
+    <section class="animation bg-section">
+      <img src="../assets/images/Sky.png" class="Sky" alt="" />
+    </section>
     <footer><h1 class="hidden">Wooow</h1></footer>
   </div>
 </template>
@@ -45,6 +40,10 @@ export default {
         },
         {
           x: 0,
+          y: -250,
+        },
+        {
+          x: 0,
           y: -window.innerHeight,
         },
       ],
@@ -52,39 +51,40 @@ export default {
 
     const tween = new TimelineLite();
 
-    // First, the flight path animation for the rocket
+    // First, the flight path animation
     tween.add(
       TweenLite.to(".rocket-man", 1, {
         bezier: flightPath,
         ease: Power1.easeInOut,
-      })
-    );
-
-    // Then, add a scaling effect for the world at the end of the rocket animation
-    tween.add(
-      TweenLite.to(".world", 1, {
-        scale: 5,
-        ease: Linear.easeNone,
         onComplete: goToNextSection,
       })
     );
 
+    // Then, add a scaling effect at the end
     tween.add(
-      TweenLite.to(".world-world", 1, {
-        opacity: 0,
-        ease: Power1.easeInOut,
-      })
+      TweenLite.fromTo(
+        ".world",
+        1,
+        { scale: 1 }, // Start with the current scale
+
+        { scale: 5, onComplete: goToNextSection } // End with a smaller scale and trigger transition
+      )
     );
 
-    // Finally, add a fade-in effect for the sky inside the world
+    /*  tween.add(
+      TweenLite.fromTo(
+        ".world",
+        10,
+        { scale: 1 },
+        { scale: 8, ease: Linear.easeNone, repeat: -1 }
+      )
+    ); */
 
-    // Create a ScrollMagic controller
     const controller = new ScrollMagic.Controller();
 
-    // Create a ScrollMagic scene
     const scene = new ScrollMagic.Scene({
       triggerElement: ".animation",
-      duration: 1000, // Adjust the duration as needed
+      duration: 1000,
       triggerHook: 0,
     })
       .setTween(tween)
@@ -93,7 +93,7 @@ export default {
 
     function goToNextSection() {
       // Transition to the next section (e.g., when the plane zoom-in animation is complete)
-      const nextSection = document.querySelector(".sky-inside-world");
+      const nextSection = document.querySelector(".bg-section");
       window.scrollTo({
         top: nextSection.offsetTop,
         behavior: "smooth",
@@ -112,6 +112,7 @@ export default {
 
 .space {
   background-image: url("../assets/images/SpaceBackground.png");
+
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -135,20 +136,11 @@ export default {
 .rocket-man-wrapper {
   position: absolute;
   top: 50%;
-  left: 25%;
+  left: 25%; /* Position on the right */
   animation: pump 1.5s infinite alternate;
 }
 
 .world {
-  position: absolute;
-  height: 100vh;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.world-world {
   position: absolute;
   height: 400px;
   bottom: 0%;
@@ -156,29 +148,37 @@ export default {
   z-index: 1;
 }
 
-.sky-inside-world {
-  height: 100vh;
-  width: 100%;
-  background: linear-gradient(180deg, #000514 0%, #03a9f4 80%);
-}
-
-.GlowLabel {
-  color: #c940eb;
-  text-align: center;
-  text-shadow: 0px 4px 50px #c940eb;
-  font-family: Poppins;
-  font-size: 80px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+.ovni {
+  position: absolute;
+  height: 300px;
+  top: 0%;
+  left: 0%;
+  z-index: 1;
 }
 
 @keyframes pump {
   0% {
-    transform: translateY(0);
+    transform: translateY(0px);
   }
   100% {
     transform: translateY(-20px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .rocket-man-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 0%; /* Position on the right */
+    animation: pump 1.5s infinite alternate;
+  }
+
+  .world {
+    position: absolute;
+    height: 400px;
+    bottom: 0%;
+    left: 0%;
+    z-index: 1;
   }
 }
 </style>

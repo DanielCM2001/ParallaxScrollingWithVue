@@ -8,13 +8,10 @@
       <div class="world">
         <img src="../assets/images/WorldX4.png" alt="" class="world-world" />
       </div>
-      <h1 class="GlowLabel">
-        I enjoy creating things that live
-        <br />
-        on the internet...
-      </h1>
+      <div class="sky-inside-world">
+        <!--   <img src="../assets/images/Sky.png" class="Sky" alt="" /> -->
+      </div>
     </section>
-    <section class="animation sky-inside-world"></section>
     <section class="animation bg-section">Content for the next section</section>
     <footer><h1 class="hidden">Wooow</h1></footer>
   </div>
@@ -45,6 +42,10 @@ export default {
         },
         {
           x: 0,
+          y: -250,
+        },
+        {
+          x: 0,
           y: -window.innerHeight,
         },
       ],
@@ -65,7 +66,6 @@ export default {
       TweenLite.to(".world", 1, {
         scale: 5,
         ease: Linear.easeNone,
-        onComplete: goToNextSection,
       })
     );
 
@@ -77,6 +77,15 @@ export default {
     );
 
     // Finally, add a fade-in effect for the sky inside the world
+
+    tween.add(
+      TweenLite.fromTo(
+        ".sky-inside-world",
+        2,
+        { opacity: 0 },
+        { opacity: 1, ease: Power1.easeInOut }
+      )
+    );
 
     // Create a ScrollMagic controller
     const controller = new ScrollMagic.Controller();
@@ -90,15 +99,6 @@ export default {
       .setTween(tween)
       .setPin(".animation")
       .addTo(controller);
-
-    function goToNextSection() {
-      // Transition to the next section (e.g., when the plane zoom-in animation is complete)
-      const nextSection = document.querySelector(".sky-inside-world");
-      window.scrollTo({
-        top: nextSection.offsetTop,
-        behavior: "smooth",
-      });
-    }
   },
 };
 </script>
@@ -157,20 +157,13 @@ export default {
 }
 
 .sky-inside-world {
+  position: absolute;
+  opacity: 0;
   height: 100vh;
   width: 100%;
+  top: 0;
+  left: 0;
   background: linear-gradient(180deg, #000514 0%, #03a9f4 80%);
-}
-
-.GlowLabel {
-  color: #c940eb;
-  text-align: center;
-  text-shadow: 0px 4px 50px #c940eb;
-  font-family: Poppins;
-  font-size: 80px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 }
 
 @keyframes pump {
